@@ -109,7 +109,7 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Info box style */
+  
   .info-box {
     background: #e0e7ff;
     padding: 1rem 1.5rem;
@@ -121,7 +121,7 @@
     animation: pulse 3s infinite;
   }
 
-  /* Interactive Card */
+  
   .card {
     background: white;
     border-radius: var(--border-radius);
@@ -161,7 +161,7 @@
     transform: none;
   }
 
-  /* Quiz styles */
+  
   .quiz-question {
     margin: 1rem 0 0.5rem;
     font-weight: 600;
@@ -215,7 +215,7 @@
     pointer-events: none;
   }
 
-  /* Badge style */
+  
   .badge {
     display: inline-block;
     background: var(--secondary-color);
@@ -230,7 +230,7 @@
     animation: badge-pop 0.6s ease forwards;
   }
 
-  /* Navigation buttons */
+  
   .nav-buttons {
     display: flex;
     justify-content: space-between;
@@ -262,7 +262,7 @@
     transform: none;
   }
 
-  /* Demonstration style */
+  
   .demo-box {
     background: #f0fff4;
     border: 2px solid var(--secondary-color);
@@ -282,7 +282,7 @@
     box-shadow: 0 0 15px 5px #48bb78aa, 0 0 30px 10px #48bb7877;
   }
 
-  /* Animated icon */
+  
   .lock-icon {
     font-size: 4.5rem;
     color: var(--secondary-color);
@@ -291,7 +291,7 @@
     margin-bottom: 1rem;
   }
 
-  /* Accordion styles for platform instructions */
+  
   .accordion {
     border: 2px solid var(--toggle-border);
     border-radius: var(--border-radius);
@@ -337,7 +337,7 @@
   }
   .accordion-content.open {
     padding: 1rem 1.5rem 1.5rem;
-    max-height: 1000px; /* large for animation */
+    max-height: 1000px; 
   }
   .platform-step {
     margin-bottom: 0.6rem;
@@ -347,7 +347,7 @@
     color: var(--secondary-color);
     margin-bottom: 0.5rem;
   }
-  /* Animations */
+  
   @keyframes pulse {
     0%, 100% {
       transform: scale(1);
@@ -403,7 +403,7 @@
     }
   }
 
-  /* Responsive */
+  
   @media (max-width: 600px) {
     body {
       padding: 1rem 0.5rem 3rem;
@@ -424,9 +424,7 @@
     <p>Aprenda a proteger suas contas com autenticação multifator, de maneira interativa e divertida!</p>
   </header>
 
-  <!-- Existing steps omitted for brevity... -->
-
-  <!-- New Step - How to activate 2FA platforms -->
+  
   <section data-step="7" class="course-step" aria-label="Como ativar a autenticação em duas etapas nas principais plataformas" hidden>
     <h2>Como ativar a autenticação em duas etapas nas principais plataformas</h2>
     <p>Veja as etapas detalhadas para os principais serviços populares, com animações para facilitar o entendimento!</p>
@@ -500,13 +498,13 @@
     </div>
   </section>
 
-  <!-- Step 8 - Quiz Interativo -->
+  
   <section data-step="8" class="course-step" aria-label="Quiz Interativo" hidden>
     <h2>Quiz: Teste seus conhecimentos!</h2>
     <div id="quiz-container" tabindex="0" aria-live="polite" aria-atomic="true"></div>
   </section>
 
-  <!-- Step 9 - Conclusão e Certificado -->
+  
   <section data-step="9" class="course-step" aria-label="Conclusão e Certificado" hidden>
     <h2>🎉 Parabéns! Você completou o curso.</h2>
     <p>Agora você conhece o funcionamento, importância, melhores práticas e como ativar autenticação em duas etapas nas principais plataformas.</p>
@@ -529,13 +527,13 @@
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
 
-  // Show step with animations
+  
   function showStep(index) {
     steps.forEach((step, i) => {
       if (i === index) {
         step.hidden = false;
         step.classList.add('active');
-        // If step includes quiz and quiz not completed, disable next button
+        
         if(step.querySelector('#quiz-container') && !quizCompleted) {
           nextBtn.disabled = true;
           nextBtn.setAttribute('aria-disabled', 'true');
@@ -581,7 +579,7 @@
 
   showStep(currentStep);
 
-  // Hack test interaction (Step 2)
+  
   const hackTestBtn = document.getElementById('btn-hack-test');
   const hackResult = document.getElementById('hack-result');
 
@@ -595,7 +593,7 @@
     });
   }
 
-  // Demo code generation (Step 3)
+  
   const demoCodeBox = document.getElementById('demo-code');
   const generateCodeBtn = document.getElementById('btn-generate-code');
 
@@ -620,7 +618,7 @@
     generateCode();
   }
 
-  // Quiz Section (Step 8)
+  
 
   const quizContainer = document.getElementById('quiz-container');
   const quizQuestions = [
@@ -742,7 +740,7 @@
 
   renderQuizQuestion(quizCurrent);
 
-  // Accordion toggling for platform instructions
+  
   const accordions = [...document.querySelectorAll('.accordion')];
 
   accordions.forEach(acc => {
