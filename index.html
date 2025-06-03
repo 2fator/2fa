@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Curso Completo de Segurança em Duas Etapas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  :root {
+    --primary-color: #5a67d8;
+    --secondary-color: #48bb78;
+    --accent-color: #ed64a6;
+    --bg-color: #f9fafb;
+    --text-color: #2d3748;
+    --light-text: #718096;
+    --max-width: 900px;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 16px rgba(90, 103, 216, 0.2);
+    --shadow-hover: 0 12px 24px rgba(90, 103, 216, 0.35);
+    --toggle-bg: #fefefe;
+    --toggle-border: #ddd;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem 4rem;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    width: 100%;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem 3rem 3rem;
+    animation-duration: 0.8s;
+    animation-fill-mode: both;
+    overflow-wrap: break-word;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  header h1 {
+    font-weight: 600;
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeInDown 1s ease forwards;
+  }
+
+  header p {
+    font-size: 1.2rem;
+    color: var(--light-text);
+    margin-top: 0.5rem;
+    animation: fadeInUp 1s ease forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+
+  section {
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  section.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  section h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 6px;
+    position: relative;
+    z-index: 0;
+  }
+
+  section p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+  }
+
+  section ul {
+    margin-left: 1.3rem;
+  }
+
+  section ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Info box style */
+  .info-box {
+    background: #e0e7ff;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+    font-weight: 500;
+    color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(90, 103, 216, 0.1);
+    animation: pulse 3s infinite;
+  }
+
+  /* Interactive Card */
+  .card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 14px rgba(72, 187, 120, 0.2);
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    position: relative;
+  }
+
+  .card:hover {
+    transform: translateY(-12px) scale(1.04);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .card button {
+    background: var(--secondary-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .card button:hover:not(:disabled) {
+    background: #38a169;
+    transform: scale(1.07);
+  }
+  .card button:disabled {
+    background: #9ae6b4;
+    cursor: default;
+    transform: none;
+  }
+
+  /* Quiz styles */
+  .quiz-question {
+    margin: 1rem 0 0.5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+  }
+
+  .quiz-options {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 1.2rem 0;
+  }
+  .quiz-options li {
+    margin: 0.55rem 0;
+  }
+  .quiz-options button {
+    width: 100%;
+    background: #edf2f7;
+    border: 2px solid transparent;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .quiz-options button:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: scale(1.03);
+  }
+  .quiz-options button.correct {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: white;
+    cursor: default;
+    box-shadow: 0 6px 14px rgba(72,187,120,0.5);
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+  .quiz-options button.incorrect {
+    background: #f56565;
+    border-color: #f56565;
+    color: white;
+    cursor: default;
+    box-shadow: 0 6px 14px rgba(245,101,101,0.5);
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  /* Badge style */
+  .badge {
+    display: inline-block;
+    background: var(--secondary-color);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-weight: 700;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    user-select: none;
+    box-shadow: 0 6px 18px rgba(72, 187, 120, 0.45);
+    animation: badge-pop 0.6s ease forwards;
+  }
+
+  /* Navigation buttons */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+
+  .nav-buttons button {
+    background: var(--accent-color);
+    color: white;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    border: none;
+    padding: 0.8rem 1.4rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 6px 18px rgba(237, 100, 166, 0.5);
+  }
+
+  .nav-buttons button:hover:not(:disabled) {
+    background: #d53f8c;
+    transform: scale(1.05);
+  }
+
+  .nav-buttons button:disabled {
+    background: #ccc;
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* Demonstration style */
+  .demo-box {
+    background: #f0fff4;
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    font-weight: 700;
+    user-select: none;
+    text-align: center;
+    font-size: 2rem;
+    letter-spacing: 6px;
+    color: var(--secondary-color);
+    box-shadow: 0 6px 14px rgba(72, 187, 120, 0.4);
+    transition: box-shadow 0.3s ease;
+  }
+  .demo-box.glow {
+    box-shadow: 0 0 15px 5px #48bb78aa, 0 0 30px 10px #48bb7877;
+  }
+
+  /* Animated icon */
+  .lock-icon {
+    font-size: 4.5rem;
+    color: var(--secondary-color);
+    user-select: none;
+    animation: bounce 2.5s ease-in-out infinite;
+    margin-bottom: 1rem;
+  }
+
+  /* Accordion styles for platform instructions */
+  .accordion {
+    border: 2px solid var(--toggle-border);
+    border-radius: var(--border-radius);
+    background: var(--toggle-bg);
+    margin: 1rem 0;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .accordion-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--primary-color);
+    user-select: none;
+    transition: background 0.3s ease;
+  }
+  .accordion-header:hover {
+    background: #e2e8f0;
+  }
+  .accordion-header:focus {
+    outline: 3px solid var(--accent-color);
+  }
+  .accordion-icon {
+    font-size: 1.5rem;
+    transition: transform 0.35s ease;
+  }
+  .accordion-icon.open {
+    transform: rotate(180deg);
+  }
+  .accordion-content {
+    max-height: 0;
+    padding: 0 1.5rem;
+    background: white;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.4s ease;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+  }
+  .accordion-content.open {
+    padding: 1rem 1.5rem 1.5rem;
+    max-height: 1000px; /* large for animation */
+  }
+  .platform-step {
+    margin-bottom: 0.6rem;
+  }
+  .platform-title {
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+  }
+  /* Animations */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-12px);
+      opacity: 0.85;
+    }
+  }
+
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes badge-pop {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    body {
+      padding: 1rem 0.5rem 3rem;
+    }
+    .container {
+      padding: 1.5rem 1.5rem 2rem;
+    }
+    header h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container" role="main" aria-labelledby="page-title">
+  <header>
+    <h1 id="page-title" tabindex="0">Curso Completo de Segurança em Duas Etapas (2FA)</h1>
+    <p>Aprenda a proteger suas contas com autenticação multifator, de maneira interativa e divertida!</p>
+  </header>
+
+  <!-- Existing steps omitted for brevity... -->
+
+  <!-- New Step - How to activate 2FA platforms -->
+  <section data-step="7" class="course-step" aria-label="Como ativar a autenticação em duas etapas nas principais plataformas" hidden>
+    <h2>Como ativar a autenticação em duas etapas nas principais plataformas</h2>
+    <p>Veja as etapas detalhadas para os principais serviços populares, com animações para facilitar o entendimento!</p>
+
+    <div class="accordion" tabindex="0" aria-expanded="false" aria-controls="insta-content" role="button" id="insta-toggle">
+      <div class="accordion-header" >
+        Instagram 📸
+        <span class="accordion-icon" aria-hidden="true">▼</span>
+      </div>
+      <div class="accordion-content" id="insta-content" role="region" aria-labelledby="insta-toggle">
+        <p class="platform-step">1. Abra o app Instagram e acesse seu perfil.</p>
+        <p class="platform-step">2. Toque nas três linhas horizontais no canto superior direito e selecione <strong>Configurações</strong>.</p>
+        <p class="platform-step">3. Entre em <strong>Segurança</strong> &gt; <strong>Autenticação de dois fatores</strong>.</p>
+        <p class="platform-step">4. Selecione um método (Aplicativo autenticador ou SMS).</p>
+        <p class="platform-step">5. Siga as instruções para completar a configuração.</p>
+      </div>
+    </div>
+
+    <div class="accordion" tabindex="0" aria-expanded="false" aria-controls="facebook-content" role="button" id="facebook-toggle">
+      <div class="accordion-header">
+        Facebook 📘
+        <span class="accordion-icon" aria-hidden="true">▼</span>
+      </div>
+      <div class="accordion-content" id="facebook-content" role="region" aria-labelledby="facebook-toggle">
+        <p class="platform-step">1. Acesse as configurações da sua conta no Facebook.</p>
+        <p class="platform-step">2. Clique em <strong>Segurança e login</strong>.</p>
+        <p class="platform-step">3. Vá em <strong>Usar autenticação de dois fatores</strong>.</p>
+        <p class="platform-step">4. Escolha seu método preferido: aplicativo autenticador, SMS ou chave de segurança.</p>
+        <p class="platform-step">5. Siga as instruções para ativar e confirmar.</p>
+      </div>
+    </div>
+
+    <div class="accordion" tabindex="0" aria-expanded="false" aria-controls="google-content" role="button" id="google-toggle">
+      <div class="accordion-header">
+        Google 🔍
+        <span class="accordion-icon" aria-hidden="true">▼</span>
+      </div>
+      <div class="accordion-content" id="google-content" role="region" aria-labelledby="google-toggle">
+        <p class="platform-step">1. Acesse <a href="https://myaccount.google.com/security" target="_blank" rel="noopener">https://myaccount.google.com/security</a>.</p>
+        <p class="platform-step">2. Clique em <strong>Verificação em duas etapas</strong> e depois <strong>Começar</strong>.</p>
+        <p class="platform-step">3. Insira sua senha se solicitado.</p>
+        <p class="platform-step">4. Escolha um método para receber códigos (SMS ou aplicativo autenticador).</p>
+        <p class="platform-step">5. Siga os passos para ativar a verificação.</p>
+      </div>
+    </div>
+
+    <div class="accordion" tabindex="0" aria-expanded="false" aria-controls="whatsapp-content" role="button" id="whatsapp-toggle">
+      <div class="accordion-header">
+        WhatsApp 💬
+        <span class="accordion-icon" aria-hidden="true">▼</span>
+      </div>
+      <div class="accordion-content" id="whatsapp-content" role="region" aria-labelledby="whatsapp-toggle">
+        <p class="platform-step">1. Abra o WhatsApp e vá em <strong>Configurações</strong>.</p>
+        <p class="platform-step">2. Toque em <strong>Conta</strong> &gt; <strong>Verificação em duas etapas</strong>.</p>
+        <p class="platform-step">3. Toque em <strong>Ativar</strong>.</p>
+        <p class="platform-step">4. Configure um PIN de 6 dígitos e um e-mail de recuperação.</p>
+        <p class="platform-step">5. Confirme a ativação.</p>
+      </div>
+    </div>
+
+    <div class="accordion" tabindex="0" aria-expanded="false" aria-controls="others-content" role="button" id="others-toggle">
+      <div class="accordion-header">
+        Outras Plataformas 🌐
+        <span class="accordion-icon" aria-hidden="true">▼</span>
+      </div>
+      <div class="accordion-content" id="others-content" role="region" aria-labelledby="others-toggle">
+        <p class="platform-step">A maioria dos serviços populares (Twitter, LinkedIn, Dropbox, etc.) possui configurações similares para 2FA.</p>
+        <p class="platform-step">Procure pelas opções de segurança na sua conta e siga instruções para ativar verificação em duas etapas, sempre utilizando métodos confiáveis.</p>
+        <p class="platform-step">Consulte a documentação oficial de cada serviço para detalhes atuais.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 8 - Quiz Interativo -->
+  <section data-step="8" class="course-step" aria-label="Quiz Interativo" hidden>
+    <h2>Quiz: Teste seus conhecimentos!</h2>
+    <div id="quiz-container" tabindex="0" aria-live="polite" aria-atomic="true"></div>
+  </section>
+
+  <!-- Step 9 - Conclusão e Certificado -->
+  <section data-step="9" class="course-step" aria-label="Conclusão e Certificado" hidden>
+    <h2>🎉 Parabéns! Você completou o curso.</h2>
+    <p>Agora você conhece o funcionamento, importância, melhores práticas e como ativar autenticação em duas etapas nas principais plataformas.</p>
+    <div class="badge" role="img" aria-label="Selo de conquista">🎉 Certified 2FA Pro 🎉</div>
+    <p>Coloque em prática na sua vida digital e mantenha suas contas seguras todos os dias!</p>
+  </section>
+
+  <nav class="nav-buttons" role="navigation" aria-label="Navegação do curso">
+    <button type="button" id="prev-btn" disabled aria-disabled="true" aria-label="Voltar para o passo anterior">Anterior</button>
+    <button type="button" id="next-btn" aria-label="Avançar para o próximo passo">Próximo</button>
+  </nav>
+</div>
+
+<script>
+(function() {
+  const steps = [...document.querySelectorAll('.course-step')];
+  let currentStep = 0;
+  let quizCompleted = false;
+
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+
+  // Show step with animations
+  function showStep(index) {
+    steps.forEach((step, i) => {
+      if (i === index) {
+        step.hidden = false;
+        step.classList.add('active');
+        // If step includes quiz and quiz not completed, disable next button
+        if(step.querySelector('#quiz-container') && !quizCompleted) {
+          nextBtn.disabled = true;
+          nextBtn.setAttribute('aria-disabled', 'true');
+        } else {
+          nextBtn.disabled = false;
+          nextBtn.removeAttribute('aria-disabled');
+        }
+        step.querySelector('h2').focus();
+      } else {
+        step.classList.remove('active');
+        step.hidden = true;
+      }
+    });
+    prevBtn.disabled = index === 0;
+    prevBtn.setAttribute('aria-disabled', prevBtn.disabled.toString());
+    if(index === steps.length -1) {
+      nextBtn.textContent = 'Finalizar';
+    } else {
+      nextBtn.textContent = 'Próximo';
+    }
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentStep > 0) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentStep < steps.length - 1) {
+      if (currentStep === 8 && !quizCompleted) {
+        alert('Por favor, complete o quiz antes de continuar.');
+        return;
+      }
+      currentStep++;
+      showStep(currentStep);
+    } else {
+      alert('Obrigado por participar do curso de Segurança em Duas Etapas!');
+    }
+    showStep(currentStep);
+  });
+
+  showStep(currentStep);
+
+  // Hack test interaction (Step 2)
+  const hackTestBtn = document.getElementById('btn-hack-test');
+  const hackResult = document.getElementById('hack-result');
+
+  if(hackTestBtn) {
+    hackTestBtn.addEventListener('click', () => {
+      hackResult.textContent = 'Se você usar apenas senha, um hacker que a roubar pode acessar sua conta, roubar seus dados e causar muitos problemas! Por isso, use a autenticação em duas etapas para se proteger.';
+      hackTestBtn.disabled = true;
+      hackTestBtn.textContent = 'Testado';
+      hackTestBtn.style.transform = 'scale(1.1)';
+      setTimeout(() => hackTestBtn.style.transform = '', 250);
+    });
+  }
+
+  // Demo code generation (Step 3)
+  const demoCodeBox = document.getElementById('demo-code');
+  const generateCodeBtn = document.getElementById('btn-generate-code');
+
+  function generateCode() {
+    if(demoCodeBox) {
+      demoCodeBox.classList.add('glow');
+      let code = '';
+      for (let i = 0; i < 6; i++) {
+        code += Math.floor(Math.random() * 10);
+      }
+      demoCodeBox.textContent = code;
+      setTimeout(() => demoCodeBox.classList.remove('glow'), 1200);
+    }
+  }
+
+  if(generateCodeBtn) {
+    generateCodeBtn.addEventListener('click', () => {
+      generateCodeBtn.style.transform = 'scale(1.1)';
+      setTimeout(() => generateCodeBtn.style.transform = '', 200);
+      generateCode();
+    });
+    generateCode();
+  }
+
+  // Quiz Section (Step 8)
+
+  const quizContainer = document.getElementById('quiz-container');
+  const quizQuestions = [
+    {
+      question: 'O que é a autenticação em duas etapas?',
+      options: [
+        'Usar duas senhas diferentes para uma conta.',
+        'Adicionar uma segunda camada de segurança além da senha.',
+        'Trocar a senha frequentemente.',
+        'Compartilhar sua senha com um amigo confiável.'
+      ],
+      answer: 1
+    },
+    {
+      question: 'Qual método é mais seguro para o segundo fator?',
+      options: [
+        'Receber um código por SMS.',
+        'Uso de aplicativo de autenticação.',
+        'Enviar email para si mesmo.',
+        'Usar sempre a mesma senha.'
+      ],
+      answer: 1
+    },
+    {
+      question: 'O que você deve fazer se perder seu dispositivo de autenticação?',
+      options: [
+        'Pedir para o hacker devolver o acesso.',
+        'Entrar em contato com o suporte para recuperar o acesso.',
+        'Criar uma nova conta.',
+        'Ignorar, a conta será perdida para sempre.'
+      ],
+      answer: 1
+    },
+    {
+      question: 'Qual fator NÃO é normalmente usado em autenticação multifator?',
+      options: [
+        'Algo que você sabe (senha).',
+        'Algo que você ouve (som).',
+        'Algo que você tem (token).',
+        'Algo que você é (impressão digital).'
+      ],
+      answer: 1
+    },
+    {
+      question: 'Por que o SMS pode ser menos seguro que aplicativos autenticadores?',
+      options: [
+        'Códigos via SMS podem ser interceptados ou redirecionados.',
+        'SMS tem limite de caracteres.',
+        'SMS é mais lento que apps.',
+        'SMS é difícil de usar.'
+      ],
+      answer: 0
+    }
+  ];
+
+  let quizCurrent = 0;
+
+  function renderQuizQuestion(index) {
+    const q = quizQuestions[index];
+    quizContainer.innerHTML = `
+      <div class="quiz-question">${q.question}</div>
+      <ul class="quiz-options" role="list">
+        ${q.options.map((opt, i) => `<li><button type="button" data-index="${i}">${opt}</button></li>`).join('')}
+      </ul>
+      <div aria-live="polite" aria-atomic="true" id="quiz-feedback" style="font-weight:bold; min-height: 1.5em;"></div>
+      <div style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--light-text);">Questão ${index + 1} de ${quizQuestions.length}</div>
+      <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
+        <button type="button" id="quiz-prev" ${index === 0 ? 'disabled aria-disabled="true"' : ''}>Anterior</button>
+        <button type="button" id="quiz-next" disabled aria-disabled="true">Próximo</button>
+      </div>
+    `;
+
+    const optionsButtons = quizContainer.querySelectorAll('.quiz-options button');
+    const feedback = document.getElementById('quiz-feedback');
+    const nextBtnQuiz = document.getElementById('quiz-next');
+    const prevBtnQuiz = document.getElementById('quiz-prev');
+    let answered = false;
+
+    optionsButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        if (answered) return;
+        answered = true;
+        const selected = Number(button.dataset.index);
+        if (selected === q.answer) {
+          button.classList.add('correct');
+          feedback.textContent = 'Correto! Parabéns. 🎉';
+          nextBtnQuiz.disabled = false;
+          nextBtnQuiz.removeAttribute('aria-disabled');
+          nextBtnQuiz.style.transform = 'scale(1.05)';
+          setTimeout(() => nextBtnQuiz.style.transform = '', 200);
+          if(index === quizQuestions.length - 1) {
+            quizCompleted = true;
+            nextBtn.disabled = false;
+          }
+        } else {
+          button.classList.add('incorrect');
+          feedback.textContent = 'Resposta incorreta. Tente novamente.';
+          nextBtnQuiz.disabled = true;
+          nextBtnQuiz.setAttribute('aria-disabled', 'true');
+        }
+        optionsButtons.forEach(btn => btn.disabled = true);
+      });
+    });
+
+    nextBtnQuiz.addEventListener('click', () => {
+      if (quizCurrent < quizQuestions.length - 1) {
+        quizCurrent++;
+        renderQuizQuestion(quizCurrent);
+      }
+    });
+
+    prevBtnQuiz.addEventListener('click', () => {
+      if (quizCurrent > 0) {
+        quizCurrent--;
+        renderQuizQuestion(quizCurrent);
+      }
+    });
+  }
+
+  renderQuizQuestion(quizCurrent);
+
+  // Accordion toggling for platform instructions
+  const accordions = [...document.querySelectorAll('.accordion')];
+
+  accordions.forEach(acc => {
+    const header = acc.querySelector('.accordion-header');
+    const content = acc.querySelector('.accordion-content');
+    const icon = acc.querySelector('.accordion-icon');
+
+    function toggleAccordion() {
+      const expanded = acc.getAttribute('aria-expanded') === 'true';
+      if(expanded) {
+        acc.setAttribute('aria-expanded', 'false');
+        content.classList.remove('open');
+        icon.classList.remove('open');
+      } else {
+        acc.setAttribute('aria-expanded', 'true');
+        content.classList.add('open');
+        icon.classList.add('open');
+      }
+    }
+
+    header.addEventListener('click', toggleAccordion);
+    header.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleAccordion();
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
+
